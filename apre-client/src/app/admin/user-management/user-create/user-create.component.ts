@@ -41,7 +41,8 @@ import { environment } from '../../../../environments/environment';
         </div>
 
         <div class="form__actions">
-          <input type="submit" class="button button--primary" value="Submit">
+          <!--change submit button text from 'Submit' to 'Create User' to be more clear on what the form is actually doing-->
+          <input type="submit" class="button button--primary" value="Create User">
         </div>
       </form>
       <br />
