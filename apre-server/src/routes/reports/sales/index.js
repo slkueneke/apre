@@ -78,4 +78,45 @@ router.get('/regions/:region', (req, res, next) => {
   }
 });
 
+/**
+ * @description
+ *
+ * GET /salespersons
+ *
+ * Fetches total sales for each salesperson.
+ *
+ * Example:
+ * fetch('/salespersons')
+ *  .then(response => response.json())
+ *  .then(data => console.log(data));
+ */
+router.get('/salespersons', (req, res, next) => {
+  try {
+    mongo(async db => {
+      const salesBySalesperson = await db.collection('sales').aggregate([
+        {
+          $group: {
+            _id: '$salesperson',
+            totalSales: { $sum: '$amount' }
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            salesperson: '$_id',
+            totalSales: 1
+          }
+        },
+        {
+          $sort: { salesperson: 1 }
+        }
+      ]).toArray();
+      res.send(salesBySalesperson);
+    }, next);
+  } catch (err) {
+    console.error('Error getting sales by salesperson: ', err);
+    next(err);
+  }
+});
+
 module.exports = router;

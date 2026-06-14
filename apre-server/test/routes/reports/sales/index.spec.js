@@ -143,3 +143,64 @@ describe('Apre Sales Report API - Sales by Region', () => {
     });
   });
 });
+
+// Test the sales report API - Sales by Salesperson
+describe('Apre Sales Report API - Sales by Salesperson', () => {
+  beforeEach(() => {
+    mongo.mockClear();
+  });
+
+  // Test the sales/salespersons endpoint
+  it('should fetch total sales for each salesperson', async () => {
+    mongo.mockImplementation(async (callback) => {
+      const db = {
+        collection: jest.fn().mockReturnThis(),
+        aggregate: jest.fn().mockReturnValue({
+          toArray: jest.fn().mockResolvedValue([
+            { salesperson: 'Jane Smith', totalSales: 1500 },
+            { salesperson: 'John Doe', totalSales: 1000 }
+          ])
+        })
+      };
+      await callback(db);
+    });
+
+    const response = await request(app).get('/api/reports/sales/salespersons');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([
+      { salesperson: 'Jane Smith', totalSales: 1500 },
+      { salesperson: 'John Doe', totalSales: 1000 }
+    ]);
+  });
+
+  // Test with no sales data found
+  it('should return 200 and an empty array if no sales data is found', async () => {
+    mongo.mockImplementation(async (callback) => {
+      const db = {
+        collection: jest.fn().mockReturnThis(),
+        aggregate: jest.fn().mockReturnValue({
+          toArray: jest.fn().mockResolvedValue([])
+        })
+      };
+      await callback(db);
+    });
+
+    const response = await request(app).get('/api/reports/sales/salespersons');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([]);
+  });
+
+  // Test the sales/salespersons endpoint with an invalid endpoint
+  it('should return 404 for an invalid endpoint', async () => {
+    const response = await request(app).get('/api/reports/sales/salespersons/invalid-endpoint');
+
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({
+      message: 'Not Found',
+      status: 404,
+      type: 'error'
+    });
+  });
+});
