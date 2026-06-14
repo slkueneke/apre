@@ -1,8 +1,8 @@
 # apre
 
-##Week 2:
-###MAJOR CHANGE M-069
-####Create an API to fetch sales data by salesperson and build an angular component to display sales by salesperson using ChartComponent with 3 unit tests each
+## Week 2:
+### MAJOR CHANGE M-069
+#### Create an API to fetch sales data by salesperson and build an angular component to display sales by salesperson using ChartComponent with 3 unit tests each
 
 Files impacted:
 NEW
