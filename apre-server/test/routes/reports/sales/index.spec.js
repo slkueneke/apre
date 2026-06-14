@@ -146,12 +146,14 @@ describe('Apre Sales Report API - Sales by Region', () => {
 
 // Test the sales report API - Sales by Salesperson
 describe('Apre Sales Report API - Sales by Salesperson', () => {
+  // Clear mock state before each test to prevent bleed-over between tests
   beforeEach(() => {
     mongo.mockClear();
   });
 
-  // Test the sales/salespersons endpoint
+  // Test that the endpoint returns aggregated totals for each salesperson
   it('should fetch total sales for each salesperson', async () => {
+    // Mock the MongoDB aggregate call to return two salesperson records
     mongo.mockImplementation(async (callback) => {
       const db = {
         collection: jest.fn().mockReturnThis(),
@@ -167,15 +169,16 @@ describe('Apre Sales Report API - Sales by Salesperson', () => {
 
     const response = await request(app).get('/api/reports/sales/salespersons');
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(200); // Expect a 200 status code
     expect(response.body).toEqual([
       { salesperson: 'Jane Smith', totalSales: 1500 },
       { salesperson: 'John Doe', totalSales: 1000 }
     ]);
   });
 
-  // Test with no sales data found
+  // Test that the endpoint handles an empty collection gracefully
   it('should return 200 and an empty array if no sales data is found', async () => {
+    // Mock the MongoDB aggregate call to return no records
     mongo.mockImplementation(async (callback) => {
       const db = {
         collection: jest.fn().mockReturnThis(),
@@ -188,15 +191,15 @@ describe('Apre Sales Report API - Sales by Salesperson', () => {
 
     const response = await request(app).get('/api/reports/sales/salespersons');
 
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual([]);
+    expect(response.status).toBe(200); // Expect a 200 status code
+    expect(response.body).toEqual([]); // Expect an empty array
   });
 
-  // Test the sales/salespersons endpoint with an invalid endpoint
+  // Test that an unrecognized sub-route returns a 404
   it('should return 404 for an invalid endpoint', async () => {
     const response = await request(app).get('/api/reports/sales/salespersons/invalid-endpoint');
 
-    expect(response.status).toBe(404);
+    expect(response.status).toBe(404); // Expect a 404 status code
     expect(response.body).toEqual({
       message: 'Not Found',
       status: 404,

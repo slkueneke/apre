@@ -93,14 +93,17 @@ router.get('/regions/:region', (req, res, next) => {
 router.get('/salespersons', (req, res, next) => {
   try {
     mongo(async db => {
+      // Aggregate total sales amount per salesperson across all regions
       const salesBySalesperson = await db.collection('sales').aggregate([
         {
+          // Group all sales records by salesperson and sum their amounts
           $group: {
             _id: '$salesperson',
             totalSales: { $sum: '$amount' }
           }
         },
         {
+          // Reshape the output: remove _id, expose salesperson name and total
           $project: {
             _id: 0,
             salesperson: '$_id',
@@ -108,6 +111,7 @@ router.get('/salespersons', (req, res, next) => {
           }
         },
         {
+          // Sort results alphabetically by salesperson name
           $sort: { salesperson: 1 }
         }
       ]).toArray();
