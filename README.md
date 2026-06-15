@@ -27,7 +27,7 @@ To Test:
 cd apre/apre-client
 npm test
 
-cd ../apre-server
+cd apre/apre-server
 npm test
 
 ------
@@ -38,6 +38,6 @@ cd apre/apre-client
 npm install
 ng server
 
-cd ../apre-server
+cd apre/apre-server
 npm install
 npm start
