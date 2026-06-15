@@ -38,9 +38,11 @@ New sales-by-salesperson report found here: /reports/sales/sales-by-salesperson 
 To Test:
 
 cd apre/apre-client
+
 npm test
 
 cd apre/apre-server
+
 npm test
 
 ------
@@ -48,9 +50,13 @@ npm test
 To View:
 
 cd apre/apre-client
+
 npm install
+
 ng server
 
 cd apre/apre-server
+
 npm install
+
 npm start
