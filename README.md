@@ -41,6 +41,7 @@ cd apre/apre-client
 
 npm test
 
+
 cd apre/apre-server
 
 npm test
@@ -53,7 +54,8 @@ cd apre/apre-client
 
 npm install
 
-ng server
+ng serve
+
 
 cd apre/apre-server
 
