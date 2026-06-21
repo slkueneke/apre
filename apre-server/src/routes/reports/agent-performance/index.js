@@ -93,4 +93,94 @@ router.get('/call-duration-by-date-range', (req, res, next) => {
   }
 });
 
+/**
+ * @description
+ *
+ * GET /agent-performance-by-month
+ *
+ * Fetches agent performance data (call duration and call count) for a specified month.
+ *
+ * Example:
+ * fetch('/agent-performance-by-month?month=1')
+ *  .then(response => response.json())
+ *  .then(data => console.log(data));
+ */
+router.get('/agent-performance-by-month', (req, res, next) => {
+  try {
+    // Extract the month query parameter from the request
+    const { month } = req.query;
+
+    // Return 400 if no month is provided
+    if (!month) {
+      return next(createError(400, 'month is required'));
+    }
+
+    // Convert month to a number for use in the aggregation pipeline
+    const monthNumber = Number(month);
+
+    // Validate that month is a number in the range 1–12
+    if (isNaN(monthNumber) || monthNumber < 1 || monthNumber > 12) {
+      return next(createError(400, 'month must be a number between 1 and 12'));
+    }
+
+    console.log('Fetching agent performance report for month:', monthNumber);
+
+    mongo(async db => {
+      const data = await db.collection('agentPerformance').aggregate([
+        {
+          // Ensure the date field is cast to a Date type for month extraction
+          $addFields: {
+            date: { $toDate: '$date' }
+          }
+        },
+        {
+          // Keep only records whose date falls in the requested month
+          $match: {
+            $expr: { $eq: [{ $month: '$date' }, monthNumber] }
+          }
+        },
+        {
+          // Join with the agents collection to resolve agentId → agent name
+          $lookup: {
+            from: 'agents',
+            localField: 'agentId',
+            foreignField: 'agentId',
+            as: 'agentDetails'
+          }
+        },
+        {
+          // Flatten the agentDetails array produced by $lookup
+          $unwind: '$agentDetails'
+        },
+        {
+          // Group by agent name and accumulate total call duration and call count
+          $group: {
+            _id: '$agentDetails.name',
+            totalCallDuration: { $sum: '$callDuration' },
+            totalCalls: { $sum: 1 }
+          }
+        },
+        {
+          // Rename _id to agent and suppress the internal _id field
+          $project: {
+            _id: 0,
+            agent: '$_id',
+            totalCallDuration: 1,
+            totalCalls: 1
+          }
+        },
+        {
+          // Return results in alphabetical order by agent name
+          $sort: { agent: 1 }
+        }
+      ]).toArray();
+
+      res.send(data);
+    }, next);
+  } catch (err) {
+    console.error('Error in /agent-performance-by-month', err);
+    next(err);
+  }
+});
+
 module.exports = router;
