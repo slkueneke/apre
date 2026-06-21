@@ -1,6 +1,6 @@
 /**
- * Author: Professor Krasso
- * Date: 6/21/2025
+ * Author: Shannon Kueneke
+ * Date: 6/21/2026
  * File: agent-performance-by-month.component.ts
  * Description: Agent performance by month component
  */
