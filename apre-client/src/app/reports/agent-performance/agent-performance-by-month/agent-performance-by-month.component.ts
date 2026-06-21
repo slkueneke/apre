@@ -2,7 +2,8 @@
  * Author: Shannon Kueneke
  * Date: 6/21/2026
  * File: agent-performance-by-month.component.ts
- * Description: Agent performance by month component
+ * Description: Agent performance by month component; MAJOR CHANGE M-085
+Create an API to fetch agent performance data by month and build an Angular component to display agent performance by month using ChartComponent or TableComponent with 3 unit tests each.
  */
 
 import { ChangeDetectorRef, Component } from '@angular/core';
