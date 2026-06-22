@@ -1,8 +1,23 @@
 # apre
 
+## Week 4
+### MINOR CHANGE m-034
+#### Improve the styling of the support links in the Help & Support component. Use global styling from the styles.css file to style the links.
+
+Additional Context: Styling links contained within the Contact Support and Documentation cards to be primary links. I used pre-defined link styles found within the styles.css file starting at line 188.
+
+
+Files impacted:
+
+UPDATED
+- apre/apre-client/src/app/admin/support/support.component.ts (classes added to links)
+
+------
+
 ## Week 3
 ### MAJOR CHANGE M-085
 #### Create an API to fetch agent performance data by month and build an Angular component to display agent performance by month using ChartComponent or TableComponent with 3 unit tests each.
+
 
 Files impacted:
 

@@ -3,6 +3,10 @@
  * Date: 10 September 2024
  * File: support.component.ts
  * Description: Support component
+ *
+ * Author: Shannon Kuneke
+ * Date: 22 June 2026
+ * Update description: Added classes link and link--primary to style links within the Contact Support and Documentation cards to align with global styling
  */
 import { Component } from '@angular/core';
 
@@ -13,13 +17,24 @@ import { Component } from '@angular/core';
   template: `
     <div class="support">
       <h2 class="support__title">Help & Support</h2>
-      <p class="support__description">If you need assistance, please contact our support team:</p>
+      <p class="support__description">
+        If you need assistance, please contact our support team:
+      </p>
 
       <div class="support__cards">
         <div class="card support__card">
           <div class="card__header support__card-header">Contact Support</div>
           <div class="card__body support__card-body">
-            <p class="support__card-content">Email: <a href="mailto:support@example.com">support&#64;example.com</a></p>
+            <p class="support__card-content">
+              Email:
+
+              <!--Minor task m-034: style links to align to global styles for consistency across the app-->
+              <a
+                class="link link--primary"
+                href="mailto:support@example.com">
+                support&#64;example.com
+              </a>
+            </p>
             <p class="support__card-content">Phone: +1 (555) 123-4567</p>
           </div>
         </div>
@@ -28,9 +43,33 @@ import { Component } from '@angular/core';
           <div class="card__header support__card-header">Documentation</div>
           <div class="card__body support__card-body">
             <ul class="support__card-list">
-              <li class="support__card-list-item"><a href="https://example.com/docs/getting-started" target="_blank">Getting Started</a></li>
-              <li class="support__card-list-item"><a href="https://example.com/docs/user-guide" target="_blank">User Guide</a></li>
-              <li class="support__card-list-item"><a href="https://example.com/docs/api-reference" target="_blank">API Reference</a></li>
+              <li class="support__card-list-item">
+                <!--Minor task m-034: style links to align to global styles for consistency across the app-->
+                <a
+                  class="link link--primary"
+                  href="https://example.com/docs/getting-started"
+                  target="_blank">
+                  Getting Started
+                </a>
+              </li>
+              <li class="support__card-list-item">
+                <!--Minor task m-034: style links to align to global styles for consistency across the app-->
+                <a
+                  class="link link--primary"
+                  href="https://example.com/docs/user-guide"
+                  target="_blank">
+                  User Guide
+                </a>
+              </li>
+              <li class="support__card-list-item">
+                <!--Minor task m-034: style links to align to global styles for consistency across the app-->
+                <a
+                  class="link link--primary"
+                  href="https://example.com/docs/api-reference"
+                  target="_blank">
+                  API Reference
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -86,8 +125,6 @@ import { Component } from '@angular/core';
     .support__card-list-item {
       margin-bottom: 10px;
     }
-  `
+  `,
 })
-export class SupportComponent {
-
-}
+export class SupportComponent {}
