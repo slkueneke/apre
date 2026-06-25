@@ -1,6 +1,29 @@
 # apre
 
 ## Week 4
+### MAJOR CHANGE M-108
+#### Create an API to fetch customer feedback data by product and build an Angular component to display customer feedback by product using ChartComponent or TableComponent with 3 unit tests each.
+
+Files Impacted:
+
+NEW
+- apre-client/src/app/reports/customer-feedback/feedback-by-product/feedback-by-product.component.ts (new report)
+- apre-client/src/app/reports/customer-feedback/feedback-by-product/feedback-by-product.component.spec.ts (report's 3 unit tests)
+
+UPDATED
+- apre-client/src/app/app.routes.ts (add import, route for new report)
+- apre-client/src/app/layouts/main-layout/main-layout.component.ts (add new report in left rail navigation)
+- apre-server/src/routes/reports/customer-feedback/index.js (new GET endpoint for new report)
+- apre-server/test/routes/reports/customer-feedback/index.spec.js (3 new tests for new endpoint)
+
+New agent-performance-by-month report found here: /reports/customer-feedback/feedback-by-product (or UI nav: Customer Feedback Reports > Customer Feedback by Product)
+
+See section below 'TESTING AND VIEWING INSTRUCTIONS' for instructions on testing and viewing the new changes.
+
+
+------
+
+## Week 4
 ### MINOR CHANGE m-034
 #### Improve the styling of the support links in the Help & Support component. Use global styling from the styles.css file to style the links.
 
